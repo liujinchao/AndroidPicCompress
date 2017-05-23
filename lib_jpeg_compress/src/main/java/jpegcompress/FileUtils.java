@@ -46,7 +46,6 @@ public class FileUtils {
                 filename = cursor.getString(0);
             }
         } else if (data.getScheme().toString().compareTo("file") == 0) {// file:///开头的uri
-            filename = data.toString();
             filename = data.toString().replace("file://", "");// 替换file://
             if (!filename.startsWith("/mnt")) {// 加上"/mnt"头
                 filename += "/mnt";
