@@ -1,5 +1,6 @@
 package com.liujc.androidpiccompress;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,7 +39,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        doCheckPermission();
         initView();
+    }
+
+    final String[] PERMISSIONS = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+    };
+    //检查所需的全部权限
+    public boolean doCheckPermission() {
+        PermissionsChecker mPermissionsChecker = new PermissionsChecker(MainActivity.this);
+        if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
+            ActivityCompat.requestPermissions(MainActivity.this, PERMISSIONS, 0x12);
+            return false;
+        }
+        return true;
     }
 
     private void initView() {
